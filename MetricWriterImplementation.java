@@ -8,7 +8,7 @@ import oracle.interview.metrics.TargetMetricsContainer;
 
 public class MetricWriterImplementation implements MetricWriter {
 
-	  //JCMS V1
+    //JCMS V1
     private final MetricStorage storage;
     //Container class without setter just to user Reflection
     TargetMetricsContainer tmContainer; 
@@ -41,10 +41,26 @@ public class MetricWriterImplementation implements MetricWriter {
     			storage.write(metricsContainer);
     		}
     		
-		} catch (Exception e) {
+		} catch ( Exception e) {
+			System.out.println("Print myException..."); 
+			myException(e);
 			
-			e.printStackTrace();
+			//Retry to execute write() method in catch block with myException
+			if(metricsContainer!=null) {
+				try {
+					storage.write(metricsContainer);
+				} catch (Exception mye2) {
+					myException(mye2);
+				}
+				
+			}
+			
 		}
     	
     }
+    private static void myException(Exception mye) {
+    	System.out.println("Execute myException...");
+    	
+    }
+    
 }
